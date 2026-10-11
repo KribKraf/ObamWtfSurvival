@@ -1,0 +1,16 @@
+plugins { id 'java' }
+group = 'ch.ismoo.obamcraft'
+version = '0.1.0-foundation.1'
+repositories { mavenCentral(); maven { url='https://repo.papermc.io/repository/maven-public/' } }
+java { toolchain { languageVersion=JavaLanguageVersion.of(25) } }
+dependencies {
+ compileOnly 'io.papermc.paper:paper-api:26.2.build.121-stable'
+ testImplementation platform('org.junit:junit-bom:5.11.4')
+ testImplementation 'org.junit.jupiter:junit-jupiter'
+ testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+processResources { inputs.property 'version',project.version; filesMatching('plugin.yml'){expand(version:project.version)} }
+test { useJUnitPlatform() }
+tasks.withType(JavaCompile).configureEach { options.encoding='UTF-8'; options.release=25 }
+tasks.withType(AbstractArchiveTask).configureEach { preserveFileTimestamps=false; reproducibleFileOrder=true }
+dependencyLocking { lockAllConfigurations() }
