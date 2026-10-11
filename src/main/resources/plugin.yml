@@ -1,0 +1,7 @@
+name: ObamWtfSurvival
+version: '${version}'
+main: ch.ismoo.obamcraft.wtf.WtfFoundation
+api-version: '26.2'
+commands:
+  wtf:
+    description: WTF beta foundation status and scoped preparation.

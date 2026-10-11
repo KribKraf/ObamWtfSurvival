@@ -1,0 +1,6 @@
+# Default off. This foundation is not the full playable beta.
+enabled: false
+world: wtf_beta
+# Only a verified disposable world may be prepared. Console must confirm its UUID.
+allow-disposable-bootstrap: false
+floor-y: 100
