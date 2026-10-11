@@ -53,9 +53,11 @@ public final class WtfFoundation extends JavaPlugin implements Listener, Command
     if(args.length!=4||!args[2].equals("confirm")||!args[3].equals(w.getUID().toString())){
       sender.sendMessage("This changes only the 80x80 beta spawn layers and decoration. Confirm exact world UUID with: wtf beta prepare confirm "+w.getUID());return true;
     }
-    if(floor<w.getMinHeight()+1||floor+12>=w.getMaxHeight()||buildTask!=null||w.getPersistentDataContainer().has(prepared,PersistentDataType.BYTE)){
+    if(floor<w.getMinHeight()+1||floor+12>=w.getMaxHeight()||buildTask!=null||!w.getPlayers().isEmpty()||w.getPersistentDataContainer().has(prepared,PersistentDataType.BYTE)){
       sender.sendMessage("Preparation refused: invalid height, already running or already prepared. No automatic rebuild.");return true;
     }
+    // Persist the in-progress marker before writes; interrupted preparation needs backup recovery, never a blind rerun.
+    w.getPersistentDataContainer().set(prepared,PersistentDataType.BYTE,(byte)0);w.save();
     final int[] cursor={0};final int total=80*80*12;
     buildTask=getServer().getScheduler().runTaskTimer(this,()->{
       long deadline=System.nanoTime()+3_000_000L;int wrote=0;
